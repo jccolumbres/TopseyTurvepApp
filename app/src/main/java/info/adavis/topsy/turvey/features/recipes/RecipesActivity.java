@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import info.adavis.topsy.turvey.R;
+import info.adavis.topsy.turvey.db.RecipesDataProvider;
 import info.adavis.topsy.turvey.db.TopsyTurveyDataSource;
+import info.adavis.topsy.turvey.models.Recipe;
 
 public class RecipesActivity extends AppCompatActivity
 {
@@ -38,6 +40,9 @@ public class RecipesActivity extends AppCompatActivity
         dataSource.open();
         super.onResume();
 
+        for (Recipe recipe : RecipesDataProvider.recipesList) {
+            dataSource.createRecipe(recipe);
+        }
     }
 
     @Override
