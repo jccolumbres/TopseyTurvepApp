@@ -43,6 +43,8 @@ public class RecipesActivity extends AppCompatActivity
         for (Recipe recipe : RecipesDataProvider.recipesList) {
             dataSource.createRecipe(recipe);
         }
+
+        adapter.setRecipes(dataSource.getAllRecipes());
     }
 
     @Override
