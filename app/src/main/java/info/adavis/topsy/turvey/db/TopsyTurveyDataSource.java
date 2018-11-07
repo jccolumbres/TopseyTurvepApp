@@ -62,7 +62,7 @@ public class TopsyTurveyDataSource {
         Log.d(TAG,"Inserted row step id: " + rowId);
     }
 
-    public List<Recipe> getAllRecipes(){
+    /*public List<Recipe> getAllRecipes(){
 
         // This will store your query results later
         List<Recipe> recipes = new ArrayList<>();
@@ -97,5 +97,30 @@ public class TopsyTurveyDataSource {
         }
         //return list object for use
         return recipes;
+    }
+    */
+
+    public List<Recipe> getObjects(){
+        List<Recipe> recipes = new ArrayList<>();
+
+        String selectAllQuery = "SELECT * FROM recipe";
+        Cursor cursor = database.rawQuery(selectAllQuery,null);
+        try{
+            while (cursor.moveToNext()){
+                Recipe recipe = new Recipe(
+                        cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_NAME)),
+                        cursor.getString(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_DESCRIPTION)),
+                        cursor.getInt(cursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_IMAGE_RESOURCE_ID)));
+
+                recipe.setId(cursor.getLong(cursor.getColumnIndex(RecipeContract.RecipeEntry._ID)));
+
+                recipes.add(recipe);
+            }
+        }finally {
+            if (cursor!=null && !cursor.isClosed()){
+                cursor.close();
+            }
+        }
+        return  recipes;
     }
 }
